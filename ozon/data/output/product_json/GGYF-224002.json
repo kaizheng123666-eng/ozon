@@ -1,0 +1,141 @@
+{
+  "product_type": "宠物雨衣",
+  "product_type_ru": "дождевик для собак",
+  "material": "",
+  "color": "",
+  "color_name_ru": "",
+  "color_variants": [],
+  "sizes": [
+    {
+      "size": "XS",
+      "chest_cm": "",
+      "back_length_cm": "",
+      "neck_cm": "",
+      "price": "",
+      "weight": "",
+      "depth": "",
+      "width": "",
+      "height": "",
+      "note": "模拟尺码"
+    },
+    {
+      "size": "S",
+      "chest_cm": "",
+      "back_length_cm": "",
+      "neck_cm": "",
+      "price": "",
+      "weight": "",
+      "depth": "",
+      "width": "",
+      "height": "",
+      "note": "模拟尺码"
+    },
+    {
+      "size": "M",
+      "chest_cm": "",
+      "back_length_cm": "",
+      "neck_cm": "",
+      "price": "",
+      "weight": "",
+      "depth": "",
+      "width": "",
+      "height": "",
+      "note": "模拟尺码"
+    },
+    {
+      "size": "L",
+      "chest_cm": "",
+      "back_length_cm": "",
+      "neck_cm": "",
+      "price": "",
+      "weight": "",
+      "depth": "",
+      "width": "",
+      "height": "",
+      "note": "模拟尺码"
+    },
+    {
+      "size": "XL",
+      "chest_cm": "",
+      "back_length_cm": "",
+      "neck_cm": "",
+      "price": "",
+      "weight": "",
+      "depth": "",
+      "width": "",
+      "height": "",
+      "note": "模拟尺码"
+    },
+    {
+      "size": "XXL",
+      "chest_cm": "",
+      "back_length_cm": "",
+      "neck_cm": "",
+      "price": "",
+      "weight": "",
+      "depth": "",
+      "width": "",
+      "height": "",
+      "note": "模拟尺码"
+    }
+  ],
+  "target_audience": "狗",
+  "style": "户外防雨",
+  "season": "春秋雨天",
+  "main_features": [
+    "防雨",
+    "适合户外散步",
+    "宠物服装"
+  ],
+  "name_ru": "Дождевик для собак для прогулок в дождливую погоду",
+  "description_ru": "Лёгкий дождевик для собак подходит для прогулок в дождливую погоду. Модель помогает защитить шерсть от влаги и грязи. Перед покупкой проверьте размер по таблице.",
+  "bullets_ru": [
+    "Для прогулок в дождь",
+    "Лёгкая посадка",
+    "Подходит для собак разных размеров"
+  ],
+  "tags_ru": [
+    "#дождевик_для_собак",
+    "#одежда_для_собак",
+    "#защита_от_дождя",
+    "#для_прогулок",
+    "#товары_для_питомцев"
+  ],
+  "search_keywords_ru": [
+    "дождевик для собак",
+    "одежда для собак",
+    "плащ для собаки"
+  ],
+  "recommended_category_note": "模拟数据：请人工确认 Ozon 类目 ID 和 type_id。",
+  "image_roles": {
+    "primary_image": "ChatGPT Image 2026年6月6日 22_14_09 (1).png",
+    "additional_images": [
+      "ChatGPT Image 2026年6月6日 22_14_09 (2).png",
+      "ChatGPT Image 2026年6月6日 22_14_09 (3).png",
+      "ChatGPT Image 2026年6月6日 22_14_10 (4).png",
+      "ChatGPT Image 2026年6月6日 22_14_10 (5).png",
+      "ChatGPT Image 2026年6月6日 22_14_10 (6).png",
+      "ChatGPT Image 2026年6月6日 22_14_11 (7).png",
+      "ChatGPT Image 2026年6月6日 22_14_11 (8).png",
+      "ChatGPT Image 2026年6月6日 22_14_11 (9).png",
+      "ChatGPT Image 2026年6月6日 22_14_12 (10).png"
+    ],
+    "size_chart": "",
+    "detail_images": [
+      "ChatGPT Image 2026年6月6日 22_14_09 (2).png",
+      "ChatGPT Image 2026年6月6日 22_14_09 (3).png",
+      "ChatGPT Image 2026年6月6日 22_14_10 (4).png",
+      "ChatGPT Image 2026年6月6日 22_14_10 (5).png",
+      "ChatGPT Image 2026年6月6日 22_14_10 (6).png",
+      "ChatGPT Image 2026年6月6日 22_14_11 (7).png",
+      "ChatGPT Image 2026年6月6日 22_14_11 (8).png",
+      "ChatGPT Image 2026年6月6日 22_14_11 (9).png",
+      "ChatGPT Image 2026年6月6日 22_14_12 (10).png"
+    ]
+  },
+  "confidence": 0.5,
+  "need_manual_review": true,
+  "manual_review_notes": [
+    "这是模拟 AI 数据，仅用于测试 Excel 写入和图片整理。"
+  ]
+}
