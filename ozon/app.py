@@ -12,7 +12,7 @@ from urllib.parse import quote
 import pandas as pd
 import streamlit as st
 import streamlit.components.v1 as components
-from dotenv import load_dotenv
+from dotenv import load_dotenv, set_key
 
 import config
 from ai_product_analyzer import PRODUCT_SCHEMA
@@ -2021,7 +2021,38 @@ def api_upload_page() -> None:
 
 
 def main() -> None:
-    st.set_page_config(page_title="Ozon 商品 AI 半自动生成助手", layout="wide", initial_sidebar_state="expanded")
+st.set_page_config(
+    page_title="Ozon 商品 AI 半自动生成助手",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
+
+# =========================
+# Ozon API 输入窗口
+# =========================
+ENV_PATH = BASE_DIR / ".env"
+load_dotenv(ENV_PATH)
+
+with st.sidebar.expander("🔑 Ozon API 设置", expanded=True):
+    ozon_client_id_input = st.text_input(
+        "Client-Id",
+        value=os.getenv("OZON_CLIENT_ID", ""),
+        help="填写 Ozon Seller 后台的 Client-Id",
+    )
+    ozon_api_key_input = st.text_input(
+        "Api-Key",
+        value=os.getenv("OZON_API_KEY", ""),
+        type="password",
+        help="填写 Ozon Seller 后台的 Api-Key",
+    )
+
+    if st.button("保存 Ozon API"):
+        ENV_PATH.touch(exist_ok=True)
+        set_key(str(ENV_PATH), "OZON_CLIENT_ID", ozon_client_id_input.strip())
+        set_key(str(ENV_PATH), "OZON_API_KEY", ozon_api_key_input.strip())
+        os.environ["OZON_CLIENT_ID"] = ozon_client_id_input.strip()
+        os.environ["OZON_API_KEY"] = ozon_api_key_input.strip()
+        st.success("Ozon API 已保存到本地 .env")
     st.sidebar.header("页面导航")
     page = st.sidebar.radio("选择功能", ["AI 生成 Excel 草稿", "Ozon API 上传"])
     st.sidebar.caption("在左侧切换页面，不需要回到顶部。")
