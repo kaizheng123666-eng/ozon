@@ -1,74 +1,76 @@
-name: Repair app.py once
+name: repair-app-once
 
 on:
   push:
-    branches: [main]
-    paths:
-      - .github/workflows/repair-app-once.yml
+    branches:
+      - main
 
 permissions:
   contents: write
 
 jobs:
   repair:
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Patch app.py and gitignore
+      - name: Patch files
+        shell: bash
         run: |
-          python - <<'PY'
+          cat > /tmp/repair_app.py <<'PY'
           from pathlib import Path
 
-          app_path = Path('ozon/app.py')
-          text = app_path.read_text(encoding='utf-8')
+          app_path = Path("ozon/app.py")
+          text = app_path.read_text(encoding="utf-8")
 
-          if 'from dotenv import load_dotenv, set_key' not in text:
-              text = text.replace('from dotenv import load_dotenv', 'from dotenv import load_dotenv, set_key')
-          if 'import os' not in text.split('\n')[:20]:
-              text = text.replace('import json\n', 'import json\nimport os\n', 1)
+          if "from dotenv import load_dotenv, set_key" not in text:
+              text = text.replace("from dotenv import load_dotenv", "from dotenv import load_dotenv, set_key")
+          first_lines = text.split("\n")[:25]
+          if not any(line.strip() == "import os" for line in first_lines):
+              text = text.replace("import json\n", "import json\nimport os\n", 1)
 
-          marker = '\ndef main() -> None:'
+          marker = "\ndef main() -> None:"
           if marker not in text:
-              raise SystemExit('Cannot find main() marker in ozon/app.py')
+              raise SystemExit("Cannot find main function")
 
           head = text[:text.index(marker)].rstrip()
-          tail = '''
+          tail = """
 
 ENV_PATH = BASE_DIR / ".env"
 load_dotenv(ENV_PATH)
 
 
 def render_ozon_api_settings() -> None:
-    with st.sidebar.expander("🔑 Ozon API 设置", expanded=True):
+    with st.sidebar.expander("\U0001f511 Ozon API \u8bbe\u7f6e", expanded=True):
         ozon_client_id_input = st.text_input(
             "Client-Id",
             value=os.getenv("OZON_CLIENT_ID", ""),
-            help="填写 Ozon Seller 后台的 Client-Id",
+            help="\u586b\u5199 Ozon Seller \u540e\u53f0\u7684 Client-Id",
         )
         ozon_api_key_input = st.text_input(
             "Api-Key",
             value=os.getenv("OZON_API_KEY", ""),
             type="password",
-            help="填写 Ozon Seller 后台的 Api-Key",
+            help="\u586b\u5199 Ozon Seller \u540e\u53f0\u7684 Api-Key",
         )
 
-        if st.button("保存 Ozon API"):
+        if st.button("\u4fdd\u5b58 Ozon API"):
             ENV_PATH.touch(exist_ok=True)
             set_key(str(ENV_PATH), "OZON_CLIENT_ID", ozon_client_id_input.strip())
             set_key(str(ENV_PATH), "OZON_API_KEY", ozon_api_key_input.strip())
             os.environ["OZON_CLIENT_ID"] = ozon_client_id_input.strip()
             os.environ["OZON_API_KEY"] = ozon_api_key_input.strip()
-            st.success("Ozon API 已保存到本地 .env")
+            st.success("Ozon API \u5df2\u4fdd\u5b58\u5230\u672c\u5730 .env")
 
 
 def main() -> None:
-    st.set_page_config(page_title="Ozon 商品 AI 半自动生成助手", layout="wide", initial_sidebar_state="expanded")
+    st.set_page_config(page_title="Ozon \u5546\u54c1 AI \u534a\u81ea\u52a8\u751f\u6210\u52a9\u624b", layout="wide", initial_sidebar_state="expanded")
     render_ozon_api_settings()
-    st.sidebar.header("页面导航")
-    page = st.sidebar.radio("选择功能", ["AI 生成 Excel 草稿", "Ozon API 上传"])
-    st.sidebar.caption("在左侧切换页面，不需要回到顶部。")
-    st.title("Ozon 商品 AI 半自动生成助手")
-    if page == "AI 生成 Excel 草稿":
+    st.sidebar.header("\u9875\u9762\u5bfc\u822a")
+    page = st.sidebar.radio("\u9009\u62e9\u529f\u80fd", ["AI \u751f\u6210 Excel \u8349\u7a3f", "Ozon API \u4e0a\u4f20"])
+    st.sidebar.caption("\u5728\u5de6\u4fa7\u5207\u6362\u9875\u9762\uff0c\u4e0d\u9700\u8981\u56de\u5230\u9876\u90e8\u3002")
+    st.title("Ozon \u5546\u54c1 AI \u534a\u81ea\u52a8\u751f\u6210\u52a9\u624b")
+    if page == "AI \u751f\u6210 Excel \u8349\u7a3f":
         ai_draft_page()
     else:
         api_upload_page()
@@ -76,25 +78,29 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-'''
-          app_path.write_text(head + tail, encoding='utf-8')
+"""
+          app_path.write_text(head + tail, encoding="utf-8")
 
-          gitignore = Path('.gitignore')
-          required = ['.env', '__pycache__/', '.venv/', 'logs/', 'output_excel/', 'output_images/']
-          existing = gitignore.read_text(encoding='utf-8').splitlines() if gitignore.exists() else []
+          gitignore = Path(".gitignore")
+          required = [".env", "__pycache__/", ".venv/", "logs/", "output_excel/", "output_images/"]
+          existing = gitignore.read_text(encoding="utf-8").splitlines() if gitignore.exists() else []
           for item in required:
               if item not in existing:
                   existing.append(item)
-          gitignore.write_text('\n'.join(existing).rstrip() + '\n', encoding='utf-8')
+          gitignore.write_text("\n".join(existing).rstrip() + "\n", encoding="utf-8")
           PY
+          python /tmp/repair_app.py
       - name: Verify syntax
         run: python -m py_compile ozon/app.py
       - name: Commit repair
+        shell: bash
         run: |
           rm -f .github/workflows/repair-app-once.yml
           git config user.name "Codex"
           git config user.email "codex@openai.com"
           git add ozon/app.py .gitignore .github/workflows/repair-app-once.yml
-          git diff --cached --quiet && exit 0
+          if git diff --cached --quiet; then
+            exit 0
+          fi
           git commit -m "修复 app.py 语法错误并添加 Ozon API 设置窗口"
           git push
